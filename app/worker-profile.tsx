@@ -27,6 +27,9 @@ import {
 import { Dropdown }
   from "react-native-element-dropdown";
 
+  const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+  
+
 
 const workOptions = {
 
@@ -121,7 +124,7 @@ export default function WorkerProfile() {
         const response =
           await fetch(
 
-            `http://192.168.2.225:5000/api/workers/${localWorker._id}`
+            `${API_URL}/api/workers/${localWorker._id}`
 
           );
 
@@ -272,7 +275,7 @@ export default function WorkerProfile() {
                       const response =
                         await fetch(
 
-                          `http://192.168.2.225:5000/api/workers/update-works/${worker._id}`,
+                          `${API_URL}/api/workers/update-works/${worker._id}`,
 
                           {
 
@@ -475,7 +478,7 @@ export default function WorkerProfile() {
               const response =
                 await fetch(
 
-                  `http://192.168.2.225:5000/api/workers/update-works/${worker._id}`,
+                  `${API_URL}/api/workers/update-works/${worker._id}`,
 
                   {
 

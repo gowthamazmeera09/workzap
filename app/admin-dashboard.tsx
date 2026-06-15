@@ -13,6 +13,8 @@ import {
     useState
 } from "react";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 export default function AdminDashboard() {
 
     const [withdrawals, setWithdrawals] =
@@ -48,7 +50,7 @@ export default function AdminDashboard() {
                 const response =
                     await fetch(
 
-                        "http://192.168.2.225:5000/api/admin/withdrawals"
+                        `${API_URL}/api/admin/withdrawals`
 
                     );
 
@@ -73,7 +75,7 @@ export default function AdminDashboard() {
                 const response =
                     await fetch(
 
-                        "http://192.168.2.225:5000/api/admin/stats"
+                        `${API_URL}/api/admin/stats`
 
                     );
 
@@ -97,7 +99,7 @@ export default function AdminDashboard() {
 
                 await fetch(
 
-                    `http://192.168.2.225:5000/api/admin/approve/${id}`,
+                    `${API_URL}/api/admin/approve/${id}`,
 
                     {
 
@@ -128,7 +130,7 @@ export default function AdminDashboard() {
 
                 await fetch(
 
-                    `http://192.168.2.225:5000/api/admin/reject/${id}`,
+                    `${API_URL}/api/admin/reject/${id}`,
 
                     {
 

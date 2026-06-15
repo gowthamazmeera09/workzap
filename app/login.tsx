@@ -18,6 +18,8 @@ import {
   router
 } from "expo-router";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 export default function LoginScreen() {
 
   const [phone, setPhone] =
@@ -39,7 +41,7 @@ export default function LoginScreen() {
         const response =
           await fetch(
 
-            "http://192.168.2.225:5000/api/auth/login",
+            `${API_URL}/api/auth/login`,
 
             {
 
@@ -102,7 +104,7 @@ export default function LoginScreen() {
           const response =
             await fetch(
 
-              `http://192.168.2.225:5000/api/workers/user/${data.user._id}`
+              `${API_URL}/api/workers/user/${data.user._id}`
 
             );
 

@@ -17,6 +17,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 export default function EditWorkerProfile() {
 
   const [worker, setWorker] =
@@ -88,7 +90,7 @@ export default function EditWorkerProfile() {
         const response =
           await fetch(
 
-            `http://192.168.2.225:5000/api/workers/update-profile/${worker._id}`,
+            `${API_URL}/api/workers/update-profile/${worker._id}`,
 
             {
 

@@ -27,8 +27,10 @@ import { router } from "expo-router";
 import QRCode from
     "react-native-qrcode-svg";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 const socket =
-    io("http://192.168.2.225:5000");
+    io(`${API_URL}`);
 
 export default function WorkerScreen() {
 
@@ -71,7 +73,7 @@ export default function WorkerScreen() {
 
                 const response =
                     await fetch(
-                        `http://192.168.2.225:5000/api/bookings/worker/${workerId}`
+                        `${API_URL}/api/bookings/worker/${workerId}`
                     );
 
                 const data =
@@ -601,7 +603,7 @@ export default function WorkerScreen() {
                     const response =
                         await fetch(
 
-                            `http://192.168.2.225:5000/api/workers/${parsedWorker._id}`
+                            `${API_URL}/api/workers/${parsedWorker._id}`
 
                         );
 
@@ -679,7 +681,7 @@ export default function WorkerScreen() {
             try {
 
                 await fetch(
-                    `http://192.168.2.225:5000/api/bookings/accept/${bookingId}`,
+                    `${API_URL}/api/bookings/accept/${bookingId}`,
                     {
                         method: "POST"
                     }
@@ -701,7 +703,7 @@ export default function WorkerScreen() {
             try {
 
                 await fetch(
-                    `http://192.168.2.225:5000/api/bookings/arrived/${bookingId}`,
+                    `${API_URL}/api/bookings/arrived/${bookingId}`,
                     {
                         method: "POST"
                     }
@@ -723,7 +725,7 @@ export default function WorkerScreen() {
             try {
 
                 await fetch(
-                    `http://192.168.2.225:5000/api/bookings/start/${bookingId}`,
+                    `${API_URL}/api/bookings/start/${bookingId}`,
                     {
                         method: "POST"
                     }
@@ -745,7 +747,7 @@ export default function WorkerScreen() {
             try {
 
                 await fetch(
-                    `http://192.168.2.225:5000/api/bookings/complete/${bookingId}`,
+                    `${API_URL}/api/bookings/complete/${bookingId}`,
                     {
                         method: "POST"
                     }
@@ -778,7 +780,7 @@ export default function WorkerScreen() {
             try {
 
                 await fetch(
-                    `http://192.168.2.225:5000/api/bookings/reject/${bookingId}`,
+                    `${API_URL}/api/bookings/reject/${bookingId}`,
                     {
                         method: "POST"
                     }
@@ -1336,7 +1338,7 @@ export default function WorkerScreen() {
                                         try {
 
                                             await fetch(
-                                                `http://192.168.2.225:5000/api/bookings/quote/${item._id}`,
+                                                `${API_URL}/api/bookings/quote/${item._id}`,
                                                 {
 
                                                     method: "POST",
@@ -1466,7 +1468,7 @@ export default function WorkerScreen() {
 
                                                 await fetch(
 
-                                                    `http://192.168.2.225:5000/api/bookings/pay/${item._id}`,
+                                                    `${API_URL}/api/bookings/pay/${item._id}`,
 
                                                     {
 
@@ -1589,7 +1591,7 @@ export default function WorkerScreen() {
 
                                     await fetch(
 
-                                        `http://192.168.2.225:5000/api/bookings/pay/${selectedBooking._id}`,
+                                        `${API_URL}/api/bookings/pay/${selectedBooking._id}`,
 
                                         {
 

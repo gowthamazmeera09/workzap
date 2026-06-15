@@ -13,6 +13,8 @@ import {
 import AsyncStorage from
     "@react-native-async-storage/async-storage";
 
+    const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 export default function WorkerTransactions() {
 
     const [transactions, setTransactions] =
@@ -38,7 +40,7 @@ export default function WorkerTransactions() {
             const response =
                 await fetch(
 
-                    `http://192.168.2.225:5000/api/bookings/worker-history/${worker._id}`
+                    `${API_URL}/api/bookings/worker-history/${worker._id}`
 
                 );
 

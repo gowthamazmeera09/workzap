@@ -30,6 +30,8 @@ import * as Location
 import { Dropdown }
   from "react-native-element-dropdown";
 
+  const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
+
 const workOptions = {
 
   Painter: [
@@ -440,7 +442,7 @@ export default function BecomeWorker() {
         const response =
           await fetch(
 
-            "http://192.168.2.225:5000/api/workers/create",
+            `${API_URL}/api/workers/create`,
 
             {
 
