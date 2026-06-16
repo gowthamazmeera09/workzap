@@ -42,7 +42,7 @@ export default function RegisterScreen() {
         const response =
           await fetch(
 
-            "${API_URL}/api/auth/register",
+            "http://192.168.2.225:5000/api/auth/register",
 
             {
 

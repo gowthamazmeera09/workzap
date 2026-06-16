@@ -22,8 +22,6 @@ import {
 import * as Location
     from "expo-location";
 
-    const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
-
 export default function EditLocation() {
 
     const [worker, setWorker] =
@@ -188,7 +186,7 @@ export default function EditLocation() {
                 const response =
                     await fetch(
 
-                        `${API_URL}/api/workers/update-location/${worker._id}`,
+                        `http://192.168.2.225:5000/api/workers/update-location/${worker._id}`,
 
                         {
 
