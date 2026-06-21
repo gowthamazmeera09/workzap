@@ -18,6 +18,8 @@ import {
   router
 } from "expo-router";
 
+import API_URL from "@/constants/api";
+
 export default function RegisterScreen() {
 
   const [name, setName] =
@@ -41,32 +43,18 @@ export default function RegisterScreen() {
 
         const response =
           await fetch(
-
-            "http://192.168.2.225:5000/api/auth/register",
-
+            `${API_URL}/api/auth/register`,
             {
-
               method: "POST",
-
               headers: {
-
-                "Content-Type":
-                  "application/json"
-
+                "Content-Type": "application/json"
               },
-
               body: JSON.stringify({
-
                 name,
-
                 phone,
-
                 password
-
               })
-
             }
-
           );
 
         const data =

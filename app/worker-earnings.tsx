@@ -13,6 +13,8 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import API_URL from "@/constants/api";
+
 export default function WorkerEarnings() {
 
   const [earnings, setEarnings] =
@@ -45,7 +47,7 @@ export default function WorkerEarnings() {
 
         const response =
           await fetch(
-            `http://192.168.2.225:5000/api/bookings/worker/${worker._id}`
+            `${API_URL}/api/bookings/worker/${worker._id}`
           );
 
         const data =

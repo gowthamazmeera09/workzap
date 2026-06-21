@@ -12,6 +12,7 @@ import {
     useEffect,
     useState
 } from "react";
+import API_URL from "@/constants/api";
 
 export default function AdminDashboard() {
 
@@ -47,9 +48,7 @@ export default function AdminDashboard() {
 
                 const response =
                     await fetch(
-
-                        "http://192.168.2.225:5000/api/admin/withdrawals"
-
+                        `${API_URL}/api/admin/withdrawals`
                     );
 
                 const data =
@@ -72,10 +71,8 @@ export default function AdminDashboard() {
 
                 const response =
                     await fetch(
-
-                        "http://192.168.2.225:5000/api/admin/stats"
-
-                    );
+    `${API_URL}/api/admin/stats`
+);
 
                 const data =
                     await response.json();
@@ -96,16 +93,11 @@ export default function AdminDashboard() {
             try {
 
                 await fetch(
-
-                    `http://192.168.2.225:5000/api/admin/approve/${id}`,
-
-                    {
-
-                        method: "POST"
-
-                    }
-
-                );
+    `${API_URL}/api/admin/approve/${id}`,
+    {
+        method: "POST"
+    }
+);
 
                 Alert.alert(
                     "Withdrawal Approved"
@@ -127,16 +119,11 @@ export default function AdminDashboard() {
             try {
 
                 await fetch(
-
-                    `http://192.168.2.225:5000/api/admin/reject/${id}`,
-
-                    {
-
-                        method: "POST"
-
-                    }
-
-                );
+    `${API_URL}/api/admin/reject/${id}`,
+    {
+        method: "POST"
+    }
+);
 
                 Alert.alert(
                     "Withdrawal Rejected"
@@ -610,9 +597,9 @@ const styles = StyleSheet.create({
     workerInfo: {
         flex: 1
     },
-    
 
-    
-    
+
+
+
 
 });

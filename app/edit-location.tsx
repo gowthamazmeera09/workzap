@@ -22,6 +22,8 @@ import {
 import * as Location
     from "expo-location";
 
+import API_URL from "@/constants/api";
+
 export default function EditLocation() {
 
     const [worker, setWorker] =
@@ -185,11 +187,8 @@ export default function EditLocation() {
 
                 const response =
                     await fetch(
-
-                        `http://192.168.2.225:5000/api/workers/update-location/${worker._id}`,
-
+                        `${API_URL}/api/workers/update-location/${worker._id}`,
                         {
-
                             method: "PUT",
 
                             headers: {

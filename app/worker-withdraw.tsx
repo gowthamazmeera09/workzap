@@ -16,6 +16,8 @@ import {
 import AsyncStorage from
   "@react-native-async-storage/async-storage";
 
+import API_URL from "@/constants/api";
+
 export default function WorkerWithdraw() {
 
   const [worker, setWorker] =
@@ -57,7 +59,7 @@ export default function WorkerWithdraw() {
     // GET LATEST WORKER
     const workerResponse =
       await fetch(
-        `http://192.168.2.225:5000/api/workers/${parsedWorker._id}`
+        `${API_URL}/api/workers/${parsedWorker._id}`
       );
 
     const latestWorker =
@@ -73,9 +75,8 @@ export default function WorkerWithdraw() {
     // GET WITHDRAWALS
     const response =
       await fetch(
-        `http://192.168.2.225:5000/api/workers/withdrawals/${parsedWorker._id}`
+        `${API_URL}/api/workers/withdrawals/${parsedWorker._id}`
       );
-
     const data =
       await response.json();
 
@@ -98,9 +99,7 @@ export default function WorkerWithdraw() {
 
         const response =
           await fetch(
-
-            `http://192.168.2.225:5000/api/workers/withdraw/${worker._id}`,
-
+            `${API_URL}/api/workers/withdraw/${worker._id}`,
             {
 
               method: "POST",

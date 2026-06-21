@@ -23,9 +23,9 @@ import Animated, {
   ZoomIn,
   ZoomOut
 } from "react-native-reanimated";
+import API_URL from "@/constants/api";
 
-const socket =
-  io("http://192.168.2.225:5000");
+const socket = io(API_URL);
 export default function HomeScreen() {
   const [location, setLocation] =
     useState<any>(null);
@@ -123,7 +123,7 @@ export default function HomeScreen() {
         const response =
           await fetch(
 
-            `http://192.168.2.225:5000/api/bookings/user/${user._id}`
+            `${API_URL}/api/bookings/user/${user._id}`
 
           );
 
@@ -175,7 +175,7 @@ export default function HomeScreen() {
       setLocation(loc.coords);
       try {
         const response = await fetch(
-          "http://192.168.2.225:5000/api/workers"
+          `${API_URL}/api/workers`
         );
 
         const data =
@@ -622,7 +622,7 @@ export default function HomeScreen() {
 
         await fetch(
 
-          `http://192.168.2.225:5000/api/workers/review/${reviewWorker.workerId}`,
+          `${API_URL}/api/workers/review/${reviewWorker.workerId}`,
 
           {
 
@@ -1200,7 +1200,7 @@ export default function HomeScreen() {
 
                         const response =
                           await fetch(
-                            "http://192.168.2.225:5000/api/bookings",
+                            `${API_URL}/api/bookings`,
                             {
                               method: "POST",
 
@@ -1311,7 +1311,7 @@ export default function HomeScreen() {
                             try {
 
                               await fetch(
-                                `http://192.168.2.225:5000/api/bookings/approve-quote/${currentBooking._id}`,
+                                `${API_URL}/api/bookings/approve-quote/${currentBooking._id}`,
                                 {
                                   method: "POST"
                                 }
@@ -1343,7 +1343,7 @@ export default function HomeScreen() {
                             try {
 
                               await fetch(
-                                `http://192.168.2.225:5000/api/bookings/reject-quote/${currentBooking._id}`,
+                                `${API_URL}/api/bookings/reject-quote/${currentBooking._id}`,
                                 {
                                   method: "POST"
                                 }
@@ -1419,7 +1419,7 @@ export default function HomeScreen() {
                         try {
 
                           await fetch(
-                            `http://192.168.2.225:5000/api/bookings/reject/${currentBooking._id}`,
+                            `${API_URL}/api/bookings/reject/${currentBooking._id}`,
                             {
                               method: "POST"
                             }

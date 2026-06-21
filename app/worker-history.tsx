@@ -13,6 +13,8 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import API_URL from "@/constants/api";
+
 export default function WorkerHistory() {
 
   const [history, setHistory] =
@@ -42,7 +44,7 @@ export default function WorkerHistory() {
 
         const response =
           await fetch(
-            `http://192.168.2.225:5000/api/bookings/worker-history/${worker._id}`
+            `${API_URL}/api/bookings/worker-history/${worker._id}`
           );
 
         const data =

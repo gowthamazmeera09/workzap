@@ -27,6 +27,8 @@ import {
 import { Dropdown }
   from "react-native-element-dropdown";
 
+import API_URL from "@/constants/api";
+
 
 const workOptions = {
 
@@ -120,9 +122,7 @@ export default function WorkerProfile() {
         // FETCH LATEST WORKER
         const response =
           await fetch(
-
-            `http://192.168.2.225:5000/api/workers/${localWorker._id}`
-
+            `${API_URL}/api/workers/${localWorker._id}`
           );
 
         const updatedWorker =
@@ -271,9 +271,7 @@ export default function WorkerProfile() {
 
                       const response =
                         await fetch(
-
-                          `http://192.168.2.225:5000/api/workers/update-works/${worker._id}`,
-
+                          `${API_URL}/api/workers/update-works/${worker._id}`,
                           {
 
                             method: "PUT",
@@ -474,9 +472,7 @@ export default function WorkerProfile() {
 
               const response =
                 await fetch(
-
-                  `http://192.168.2.225:5000/api/workers/update-works/${worker._id}`,
-
+                  `${API_URL}/api/workers/update-works/${worker._id}`,
                   {
 
                     method: "PUT",
@@ -922,16 +918,16 @@ const styles = StyleSheet.create({
     elevation: 5
 
   },
- editButton: {
-  backgroundColor: "#2962FF",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  marginHorizontal: 20,
-  marginTop: 15,
-  paddingVertical: 14,
-  borderRadius: 16
-},
+  editButton: {
+    backgroundColor: "#2962FF",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 20,
+    marginTop: 15,
+    paddingVertical: 14,
+    borderRadius: 16
+  },
 
   editText: {
     color: "#fff",
