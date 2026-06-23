@@ -168,6 +168,88 @@ export default function WorkerProfile() {
 
     };
 
+
+  const deleteAccount = async () => {
+
+    try {
+
+      const savedUser =
+        await AsyncStorage.getItem("user");
+
+      if (!savedUser) {
+
+        Alert.alert("User not found");
+
+        return;
+
+      }
+
+      const user =
+        JSON.parse(savedUser);
+
+      const response =
+        await fetch(
+
+          `${API_URL}/api/auth/delete-account/${user._id}`,
+
+          {
+            method: "DELETE"
+          }
+
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+
+        Alert.alert(
+          "Cannot Delete Account",
+          data.message
+        );
+
+        return;
+
+      }
+
+      // REMOVE LOCAL DATA
+      await AsyncStorage.clear();
+
+      Alert.alert(
+
+        "Account Deleted",
+
+        "Your account has been deleted successfully.",
+
+        [
+
+          {
+
+            text: "OK",
+
+            onPress: () =>
+              router.replace("/login")
+
+          }
+
+        ]
+
+      );
+
+    } catch (err) {
+
+      console.log(err);
+
+      Alert.alert(
+        "Error",
+        "Something went wrong."
+      );
+
+    }
+
+  };
+
+
   return (
 
     <ScrollView
@@ -681,6 +763,54 @@ export default function WorkerProfile() {
         </Text>
       </TouchableOpacity>
 
+      {/* DELETE ACCOUNT */}
+
+      <TouchableOpacity
+
+        style={styles.deleteButton}
+
+        onPress={() =>
+
+          Alert.alert(
+
+            "Delete Account",
+
+            "This action is permanent and cannot be undone.\n\nAre you sure you want to delete your account?",
+
+            [
+
+              {
+
+                text: "Cancel",
+
+                style: "cancel"
+
+              },
+
+              {
+
+                text: "Delete",
+
+                style: "destructive",
+
+                onPress: deleteAccount
+
+              }
+
+            ]
+
+          )
+
+        }
+
+      >
+
+        <Text style={styles.buttonText}>
+          Delete Account
+        </Text>
+
+      </TouchableOpacity>
+
     </ScrollView>
 
   );
@@ -934,6 +1064,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 8
   },
+  deleteButton: {
+
+  backgroundColor: "#B00020",
+
+  marginHorizontal: 20,
+
+  marginBottom: 40,
+
+  height: 58,
+
+  borderRadius: 18,
+
+  justifyContent: "center",
+
+  alignItems: "center"
+
+},
 
 
 

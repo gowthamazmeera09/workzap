@@ -556,9 +556,10 @@ export default function BecomeWorker() {
 
       <TextInput
         placeholder="Email"
+        placeholderTextColor="#888"
+        style={styles.input}
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
       />
 
       <Text style={styles.label}>
@@ -652,51 +653,58 @@ export default function BecomeWorker() {
       }
 
       <TextInput
-        placeholder="Aadhar Card Number"
-        value={aadharCard}
-        onChangeText={setAadharCard}
-        style={styles.input}
-      />
+  placeholder="Aadhar Card Number"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={aadharCard}
+  onChangeText={setAadharCard}
+/>
 
       <TextInput
-        placeholder="UPI ID"
-        value={upiId}
-        onChangeText={setUpiId}
-        style={styles.input}
-      />
+  placeholder="UPI ID"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={upiId}
+  onChangeText={setUpiId}
+/>
 
       <TextInput
-        placeholder="Bank Name"
-        value={bankName}
-        onChangeText={setBankName}
-        style={styles.input}
-      />
+  placeholder="Bank Name"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={bankName}
+  onChangeText={setBankName}
+/>
 
       <TextInput
-        placeholder="Account Number"
-        value={accountNumber}
-        onChangeText={setAccountNumber}
-        style={styles.input}
-      />
+  placeholder="Account Number"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={accountNumber}
+  onChangeText={setAccountNumber}
+/>
 
       <TextInput
-        placeholder="IFSC Code"
-        value={ifsc}
-        onChangeText={setIfsc}
-        style={styles.input}
-      />
+  placeholder="IFSC Code"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={ifsc}
+  onChangeText={setIfsc}
+/>
 
       <TextInput
-
-        placeholder="Location"
-
-        value={address}
-
-        onChangeText={setAddress}
-
-        style={styles.input}
-
-      />
+  placeholder="Location"
+  placeholderTextColor="#888"
+  selectionColor="#2962FF"
+  style={styles.input}
+  value={address}
+  onChangeText={setAddress}
+/>
 
       <TouchableOpacity
 
@@ -761,20 +769,14 @@ const styles = StyleSheet.create({
   },
 
   input: {
-
-    backgroundColor: "#F5F5F5",
-
-    height: 50,
-
-    borderRadius: 12,
-
-    paddingHorizontal: 15,
-
-    marginBottom: 10,
-
-    fontSize: 15
-
-  },
+  backgroundColor: "#F5F5F5",
+  height: 50,
+  borderRadius: 12,
+  paddingHorizontal: 15,
+  marginBottom: 10,
+  fontSize: 15,
+  color: "#000000",
+},
 
   button: {
 
