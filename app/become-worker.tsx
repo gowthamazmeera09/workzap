@@ -7,6 +7,8 @@ import {
   Alert,
   Image,
   ScrollView,
+  ActivityIndicator,
+  Modal,
 } from "react-native";
 
 import {
@@ -142,6 +144,8 @@ export default function BecomeWorker() {
 
   const [longitude, setLongitude] =
     useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
@@ -325,6 +329,8 @@ export default function BecomeWorker() {
     async () => {
 
       try {
+
+        setLoading(true);
         if (!address) {
 
           Alert.alert(
@@ -504,12 +510,13 @@ export default function BecomeWorker() {
         );
 
       } catch (err) {
-
         console.log(err);
-
+      } finally {
+        setLoading(false);
       }
 
     };
+
 
 
   return (
@@ -653,58 +660,58 @@ export default function BecomeWorker() {
       }
 
       <TextInput
-  placeholder="Aadhar Card Number"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={aadharCard}
-  onChangeText={setAadharCard}
-/>
+        placeholder="Aadhar Card Number"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={aadharCard}
+        onChangeText={setAadharCard}
+      />
 
       <TextInput
-  placeholder="UPI ID"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={upiId}
-  onChangeText={setUpiId}
-/>
+        placeholder="UPI ID"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={upiId}
+        onChangeText={setUpiId}
+      />
 
       <TextInput
-  placeholder="Bank Name"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={bankName}
-  onChangeText={setBankName}
-/>
+        placeholder="Bank Name"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={bankName}
+        onChangeText={setBankName}
+      />
 
       <TextInput
-  placeholder="Account Number"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={accountNumber}
-  onChangeText={setAccountNumber}
-/>
+        placeholder="Account Number"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={accountNumber}
+        onChangeText={setAccountNumber}
+      />
 
       <TextInput
-  placeholder="IFSC Code"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={ifsc}
-  onChangeText={setIfsc}
-/>
+        placeholder="IFSC Code"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={ifsc}
+        onChangeText={setIfsc}
+      />
 
       <TextInput
-  placeholder="Location"
-  placeholderTextColor="#888"
-  selectionColor="#2962FF"
-  style={styles.input}
-  value={address}
-  onChangeText={setAddress}
-/>
+        placeholder="Location"
+        placeholderTextColor="#888"
+        selectionColor="#2962FF"
+        style={styles.input}
+        value={address}
+        onChangeText={setAddress}
+      />
 
       <TouchableOpacity
 
@@ -721,20 +728,41 @@ export default function BecomeWorker() {
       </TouchableOpacity>
 
       <TouchableOpacity
+  style={styles.button}
+  onPress={becomeWorker}
+  disabled={loading}
+>
+  <Text style={styles.buttonText}>
+    Submit
+  </Text>
+</TouchableOpacity>
 
-        style={styles.button}
+<Modal
+  visible={loading}
+  transparent
+  animationType="fade"
+>
+  <View style={styles.loaderContainer}>
+    <View style={styles.loaderBox}>
 
-        onPress={becomeWorker}
+      <ActivityIndicator
+        size="large"
+        color="#2962FF"
+      />
 
-      >
+      <Text style={styles.loaderTitle}>
+        Creating Worker Profile...
+      </Text>
 
-        <Text style={styles.buttonText}>
-          Submit
-        </Text>
+      <Text style={styles.loaderSubtitle}>
+        Please wait
+      </Text>
 
-      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
 
-    </ScrollView>
+</ScrollView>
 
   );
 
@@ -769,14 +797,14 @@ const styles = StyleSheet.create({
   },
 
   input: {
-  backgroundColor: "#F5F5F5",
-  height: 50,
-  borderRadius: 12,
-  paddingHorizontal: 15,
-  marginBottom: 10,
-  fontSize: 15,
-  color: "#000000",
-},
+    backgroundColor: "#F5F5F5",
+    height: 50,
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    fontSize: 15,
+    color: "#000000",
+  },
 
   button: {
 
@@ -848,5 +876,34 @@ const styles = StyleSheet.create({
     marginBottom: 15
 
   },
+  loaderContainer: {
+  flex: 1,
+  backgroundColor: "rgba(0,0,0,0.35)",
+  justifyContent: "center",
+  alignItems: "center",
+},
+
+loaderBox: {
+  width: 240,
+  backgroundColor: "#fff",
+  borderRadius: 20,
+  paddingVertical: 30,
+  paddingHorizontal: 20,
+  alignItems: "center",
+  elevation: 10,
+},
+
+loaderTitle: {
+  marginTop: 20,
+  fontSize: 18,
+  fontWeight: "700",
+  color: "#111",
+},
+
+loaderSubtitle: {
+  marginTop: 8,
+  fontSize: 14,
+  color: "#666",
+},
 
 });
