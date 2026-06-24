@@ -1,3 +1,3 @@
-const API_URL = process.env.EXPO_PUBLIC_API_URL!;
+const API_URL = "https://workzap-backend.onrender.com";
 
 export default API_URL;
