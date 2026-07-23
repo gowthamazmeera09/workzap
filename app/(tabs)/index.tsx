@@ -163,6 +163,27 @@ export default function HomeScreen() {
 
   useEffect(() => {
 
+    const joinRoom = async () => {
+
+      const savedUser =
+        await AsyncStorage.getItem("user");
+
+      if (!savedUser) return;
+
+      const user = JSON.parse(savedUser);
+
+      socket.emit("joinUser", user._id);
+
+      console.log("Joined User Room:", user._id);
+
+    };
+
+    joinRoom();
+
+  }, []);
+
+  useEffect(() => {
+
     loadBookings();
     (async () => {
       let { status } =

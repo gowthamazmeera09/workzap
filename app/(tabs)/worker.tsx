@@ -71,7 +71,7 @@ export default function WorkerScreen() {
 
                 const response =
                     await fetch(
-                       `${API_URL}/api/bookings/worker/${workerId}`
+                        `${API_URL}/api/bookings/worker/${workerId}`
                     );
 
                 const data =
@@ -202,6 +202,10 @@ export default function WorkerScreen() {
 
 
                         setWorker(parsedWorker);
+                        socket.emit(
+                            "joinWorker",
+                            parsedWorker._id
+                        );
 
                         fetchBookings(
                             parsedWorker._id
@@ -239,33 +243,47 @@ export default function WorkerScreen() {
                 }
                 // SEND FIRST LOCATION IMMEDIATELY
                 const currentLocation =
-                    await Location.getCurrentPositionAsync({});
+    await Location.getCurrentPositionAsync({});
 
-                const savedWorker =
-                    await AsyncStorage.getItem(
-                        "workerProfile"
-                    );
+const savedWorker =
+    await AsyncStorage.getItem(
+        "workerProfile"
+    );
 
-                if (!savedWorker) return;
+if (!savedWorker) return;
 
-                const parsedWorker =
-                    JSON.parse(savedWorker);
+const parsedWorker =
+    JSON.parse(savedWorker);
 
-                socket.emit(
-                    "workerLocationUpdate",
-                    {
+// SEND LOCATION TO EVERY ACTIVE USER
+bookings
+    .filter(
+        booking =>
+            booking.status !== "completed" &&
+            booking.status !== "cancelled"
+    )
+    .forEach(booking => {
 
-                        workerId:
-                            parsedWorker._id,
+        socket.emit(
+            "workerLocationUpdate",
+            {
 
-                        latitude:
-                            currentLocation.coords.latitude,
+                workerId:
+                    parsedWorker._id,
 
-                        longitude:
-                            currentLocation.coords.longitude
+                userId:
+                    booking.userId,
 
-                    }
-                );
+                latitude:
+                    currentLocation.coords.latitude,
+
+                longitude:
+                    currentLocation.coords.longitude
+
+            }
+        );
+
+    });
 
                 Location.watchPositionAsync(
 
@@ -290,21 +308,34 @@ export default function WorkerScreen() {
                         const parsedWorker =
                             JSON.parse(savedWorker);
 
-                        socket.emit(
-                            "workerLocationUpdate",
-                            {
+                        bookings
+    .filter(
+        booking =>
+            booking.status !== "completed" &&
+            booking.status !== "cancelled"
+    )
+    .forEach(booking => {
 
-                                workerId:
-                                    parsedWorker._id,
+        socket.emit(
+            "workerLocationUpdate",
+            {
 
-                                latitude:
-                                    loc.coords.latitude,
+                workerId:
+                    parsedWorker._id,
 
-                                longitude:
-                                    loc.coords.longitude
+                userId:
+                    booking.userId,
 
-                            }
-                        );
+                latitude:
+                    loc.coords.latitude,
+
+                longitude:
+                    loc.coords.longitude
+
+            }
+        );
+
+    });
 
                     }
 
@@ -601,7 +632,7 @@ export default function WorkerScreen() {
                     const response =
                         await fetch(
 
-                           `${API_URL}/api/workers/${parsedWorker._id}`
+                            `${API_URL}/api/workers/${parsedWorker._id}`
 
                         );
 
@@ -1466,7 +1497,7 @@ export default function WorkerScreen() {
 
                                                 await fetch(
 
-                                                   `${API_URL}/api/bookings/pay/${item._id}`,
+                                                    `${API_URL}/api/bookings/pay/${item._id}`,
 
                                                     {
 

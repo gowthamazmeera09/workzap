@@ -133,32 +133,26 @@ export default function LoginScreen() {
       </Text>
 
       <TextInput
-
-        placeholder="Phone"
-
-        value={phone}
-
-        onChangeText={setPhone}
-
-        keyboardType="phone-pad"
-
-        style={styles.input}
-
-      />
+  placeholder="Phone"
+  placeholderTextColor="#888"
+  value={phone}
+  onChangeText={setPhone}
+  keyboardType="phone-pad"
+  style={styles.input}
+  cursorColor="#2962FF"
+  selectionColor="#2962FF"
+/>
 
       <TextInput
-
-        placeholder="Password"
-
-        value={password}
-
-        onChangeText={setPassword}
-
-        secureTextEntry
-
-        style={styles.input}
-
-      />
+  placeholder="Password"
+  placeholderTextColor="#888"
+  value={password}
+  onChangeText={setPassword}
+  secureTextEntry
+  style={styles.input}
+  cursorColor="#2962FF"
+  selectionColor="#2962FF"
+/>
 
       <TouchableOpacity
 
@@ -220,13 +214,14 @@ const styles =
     },
 
     input: {
-      backgroundColor: "#F5F5F5",
-      borderRadius: 14,
-      paddingHorizontal: 15,
-      height: 55,
-      marginBottom: 15,
-      fontSize: 16
-    },
+  backgroundColor: "#F5F5F5",
+  borderRadius: 14,
+  paddingHorizontal: 15,
+  height: 55,
+  marginBottom: 15,
+  fontSize: 16,
+  color: "#000"
+},
 
     button: {
       backgroundColor: "#2962FF",

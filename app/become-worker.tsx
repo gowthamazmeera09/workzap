@@ -343,23 +343,24 @@ export default function BecomeWorker() {
         const coords =
           await searchLocation();
 
+
+
         const formData =
           new FormData();
 
-        formData.append(
-          "userId",
-          user._id
-        );
+        const savedUser = await AsyncStorage.getItem("user");
 
-        formData.append(
-          "name",
-          user.name
-        );
+        if (!savedUser) {
+          Alert.alert("Please login again");
+          router.replace("/login");
+          return;
+        }
 
-        formData.append(
-          "phone",
-          user.phone
-        );
+        const currentUser = JSON.parse(savedUser);
+
+        formData.append("userId", currentUser._id);
+        formData.append("name", currentUser.name);
+        formData.append("phone", currentUser.phone);
 
         formData.append(
           "email",
@@ -445,6 +446,12 @@ export default function BecomeWorker() {
           } as any
         );
 
+        console.log("Image URI:", image);
+        console.log("Address:", address);
+        console.log("User:", user);
+        console.log("API_URL:", API_URL);
+        console.log("Submitting worker profile...");
+
         const response =
           await fetch(
             `${API_URL}/api/workers/create`,
@@ -454,25 +461,17 @@ export default function BecomeWorker() {
             }
           );
 
-        const data =
-          await response.json();
-        await AsyncStorage.setItem(
-
-          "workerProfile",
-
-          JSON.stringify(data.worker)
-
-        );
+        const data = await response.json();
 
         if (!response.ok) {
-
-          Alert.alert(
-            data.message
-          );
-
+          Alert.alert(data.message);
           return;
-
         }
+
+        await AsyncStorage.setItem(
+          "workerProfile",
+          JSON.stringify(data.worker)
+        );
 
         // UPDATE USER
         const updatedUser = {
@@ -509,12 +508,20 @@ export default function BecomeWorker() {
           "/worker"
         );
 
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
+      } catch (err: any) {
 
+        console.log("Become Worker Error:", err);
+
+        Alert.alert(
+          "Become Worker Error",
+          err?.message || JSON.stringify(err)
+        );
+
+      } finally {
+
+        setLoading(false);
+
+      }
     };
 
 
@@ -728,41 +735,41 @@ export default function BecomeWorker() {
       </TouchableOpacity>
 
       <TouchableOpacity
-  style={styles.button}
-  onPress={becomeWorker}
-  disabled={loading}
->
-  <Text style={styles.buttonText}>
-    Submit
-  </Text>
-</TouchableOpacity>
+        style={styles.button}
+        onPress={becomeWorker}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>
+          Submit
+        </Text>
+      </TouchableOpacity>
 
-<Modal
-  visible={loading}
-  transparent
-  animationType="fade"
->
-  <View style={styles.loaderContainer}>
-    <View style={styles.loaderBox}>
+      <Modal
+        visible={loading}
+        transparent
+        animationType="fade"
+      >
+        <View style={styles.loaderContainer}>
+          <View style={styles.loaderBox}>
 
-      <ActivityIndicator
-        size="large"
-        color="#2962FF"
-      />
+            <ActivityIndicator
+              size="large"
+              color="#2962FF"
+            />
 
-      <Text style={styles.loaderTitle}>
-        Creating Worker Profile...
-      </Text>
+            <Text style={styles.loaderTitle}>
+              Creating Worker Profile...
+            </Text>
 
-      <Text style={styles.loaderSubtitle}>
-        Please wait
-      </Text>
+            <Text style={styles.loaderSubtitle}>
+              Please wait
+            </Text>
 
-    </View>
-  </View>
-</Modal>
+          </View>
+        </View>
+      </Modal>
 
-</ScrollView>
+    </ScrollView>
 
   );
 
@@ -877,33 +884,33 @@ const styles = StyleSheet.create({
 
   },
   loaderContainer: {
-  flex: 1,
-  backgroundColor: "rgba(0,0,0,0.35)",
-  justifyContent: "center",
-  alignItems: "center",
-},
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
-loaderBox: {
-  width: 240,
-  backgroundColor: "#fff",
-  borderRadius: 20,
-  paddingVertical: 30,
-  paddingHorizontal: 20,
-  alignItems: "center",
-  elevation: 10,
-},
+  loaderBox: {
+    width: 240,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    elevation: 10,
+  },
 
-loaderTitle: {
-  marginTop: 20,
-  fontSize: 18,
-  fontWeight: "700",
-  color: "#111",
-},
+  loaderTitle: {
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111",
+  },
 
-loaderSubtitle: {
-  marginTop: 8,
-  fontSize: 14,
-  color: "#666",
-},
+  loaderSubtitle: {
+    marginTop: 8,
+    fontSize: 14,
+    color: "#666",
+  },
 
 });

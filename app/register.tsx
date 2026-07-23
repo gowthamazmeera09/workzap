@@ -102,44 +102,36 @@ export default function RegisterScreen() {
       </Text>
 
       <TextInput
-
-        placeholder="Name"
-
-        value={name}
-
-        onChangeText={setName}
-
-        style={styles.input}
-
-      />
+  placeholder="Name"
+  placeholderTextColor="#888"
+  value={name}
+  onChangeText={setName}
+  style={styles.input}
+  cursorColor="#2962FF"
+  selectionColor="#2962FF"
+/>
 
       <TextInput
-
-        placeholder="Phone"
-
-        value={phone}
-
-        onChangeText={setPhone}
-
-        keyboardType="phone-pad"
-
-        style={styles.input}
-
-      />
+  placeholder="Phone"
+  placeholderTextColor="#888"
+  value={phone}
+  onChangeText={setPhone}
+  keyboardType="phone-pad"
+  style={styles.input}
+  cursorColor="#2962FF"
+  selectionColor="#2962FF"
+/>
 
       <TextInput
-
-        placeholder="Password"
-
-        value={password}
-
-        onChangeText={setPassword}
-
-        secureTextEntry
-
-        style={styles.input}
-
-      />
+  placeholder="Password"
+  placeholderTextColor="#888"
+  value={password}
+  onChangeText={setPassword}
+  secureTextEntry
+  style={styles.input}
+  cursorColor="#2962FF"
+  selectionColor="#2962FF"
+/>
 
       <TouchableOpacity
 

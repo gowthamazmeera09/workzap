@@ -2,25 +2,21 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
-} from '@react-navigation/native';
+} from "@react-navigation/native";
 
 import {
   Stack
-} from 'expo-router';
+} from "expo-router";
 
 import {
   StatusBar
-} from 'expo-status-bar';
+} from "expo-status-bar";
 
-import 'react-native-reanimated';
+import "react-native-reanimated";
 
 import {
   useColorScheme
-} from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+} from "@/hooks/use-color-scheme";
 
 export default function RootLayout() {
 
@@ -33,7 +29,7 @@ export default function RootLayout() {
 
       value={
 
-        colorScheme === 'dark'
+        colorScheme === "dark"
           ? DarkTheme
           : DefaultTheme
 

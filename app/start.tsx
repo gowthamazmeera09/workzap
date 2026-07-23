@@ -1,14 +1,11 @@
+import React, { useEffect } from "react";
 import {
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  Text
 } from "react-native";
 
-import {
-  useEffect
-} from "react";
-
-import AsyncStorage from
-"@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   router
@@ -22,74 +19,67 @@ export default function StartScreen() {
 
   }, []);
 
-  const checkLogin =
-    async () => {
+  const checkLogin = async () => {
 
-      try {
+    try {
 
-        const token =
-          await AsyncStorage.getItem(
-            "token"
-          );
+      const token =
+        await AsyncStorage.getItem("token");
 
-        const savedUser =
-          await AsyncStorage.getItem(
-            "user"
-          );
+      const user =
+        await AsyncStorage.getItem("user");
 
-        // NOT LOGGED IN
-        if (
-          !token ||
-          !savedUser
-        ) {
+      console.log("TOKEN:", token);
+      console.log("USER:", user);
 
-          router.replace(
-            "/login"
-          );
+      if (!token || !user) {
 
-          return;
+        console.log("➡ LOGIN");
 
-        }
+        router.replace("/login");
 
-        // OPEN APP DIRECTLY
-        router.replace(
-          "/(tabs)"
-        );
-
-      } catch (err) {
-
-        console.log(err);
-
-        router.replace(
-          "/login"
-        );
+        return;
 
       }
 
-    };
+      console.log("➡ HOME");
+
+      router.replace("/(tabs)");
+
+    } catch (error) {
+
+      console.log(error);
+
+      router.replace("/login");
+
+    }
+
+  };
 
   return (
 
     <View
-
       style={{
-
         flex: 1,
-
         justifyContent: "center",
-
         alignItems: "center",
-
         backgroundColor: "#fff"
-
       }}
-
     >
 
       <ActivityIndicator
         size="large"
         color="#2962FF"
       />
+
+      <Text
+        style={{
+          marginTop: 20,
+          fontSize: 16
+        }}
+      >
+        Checking Login...
+      </Text>
 
     </View>
 

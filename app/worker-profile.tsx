@@ -190,7 +190,7 @@ export default function WorkerProfile() {
       const response =
         await fetch(
 
-          `${API_URL}/api/auth/delete-account/${user._id}`,
+          `${API_URL}/api/admin/delete-account/${user._id}`,
 
           {
             method: "DELETE"
