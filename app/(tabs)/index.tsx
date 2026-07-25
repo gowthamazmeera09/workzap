@@ -24,6 +24,7 @@ import Animated, {
   ZoomOut
 } from "react-native-reanimated";
 import API_URL from "@/constants/api";
+import { router } from "expo-router";
 
 const socket = io(API_URL);
 export default function HomeScreen() {
@@ -681,9 +682,19 @@ export default function HomeScreen() {
       }
 
     };
+  const logout = async () => {
+    try {
+      await AsyncStorage.clear();
+      socket.disconnect();
+      router.replace("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 
   if (!location) return null;
+
 
   const filteredWorkers =
     workers.filter(worker => {
@@ -738,6 +749,16 @@ export default function HomeScreen() {
     { name: "AC Repair", icon: "❄️" }
   ];
 
+  const filteredCategories = categories.filter((item) => {
+    if (search.trim() === "") {
+      return true;
+    }
+
+    return item.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+  });
+
 
   return (
 
@@ -745,13 +766,52 @@ export default function HomeScreen() {
       <View style={styles.topContainer}>
 
         {/* SEARCH BAR */}
-        <TextInput
-          placeholder="Search technician..."
-          value={search}
-          onChangeText={setSearch}
-          style={styles.searchInput}
-          placeholderTextColor="#777"
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginHorizontal: 15,
+            marginBottom: 10,
+          }}
+        >
+          <TextInput
+            placeholder="Search technician..."
+            value={search}
+            onChangeText={setSearch}
+            placeholderTextColor="#777"
+            style={[
+              styles.searchInput,
+              {
+                flex: 1,
+                marginHorizontal: 0,
+                marginBottom: 0,
+              },
+            ]}
+          />
+
+          <TouchableOpacity
+            onPress={logout}
+            style={{
+              width: 50,
+              height: 50,
+              marginLeft: 10,
+              borderRadius: 14,
+              backgroundColor: "#EF4444",
+              justifyContent: "center",
+              alignItems: "center",
+              elevation: 5,
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 20,
+              }}
+            >
+              🚪
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* CATEGORY SCROLL */}
         <ScrollView
@@ -761,7 +821,7 @@ export default function HomeScreen() {
             paddingHorizontal: 15
           }}
         >
-          {categories.map((item) => {
+          {filteredCategories.map((item) => {
 
             const selected =
               selectedCategory === item.name;
@@ -1040,45 +1100,28 @@ export default function HomeScreen() {
                     style={{
                       fontSize: 14,
                       color: "#6B7280",
-                      marginBottom: 5
+                      marginBottom: 5,
+                      fontWeight: "600",
                     }}
                   >
-                    {selectedCategory}
+                    {search
+                      ? selectedWorker.serviceTypes?.find((service: string) =>
+                        service.toLowerCase().includes(search.toLowerCase())
+                      ) || "No Service"
+                      : selectedCategory}
                   </Text>
 
-                  {selectedCategory === "All" ? (
-
-                    selectedWorker.serviceTypes?.map(
-                      (service, index) => (
-                        <Text
-                          key={index}
-                          style={styles.name}
-                        >
-                          {service}
-                        </Text>
-                      )
+                  {selectedWorker.serviceTypes
+                    ?.filter((service: string) =>
+                      search === ""
+                        ? true
+                        : service.toLowerCase().startsWith(search.toLowerCase())
                     )
-
-                  ) : (
-
-                    selectedWorker.serviceTypes
-                      ?.filter(service =>
-                        service
-                          ?.toLowerCase()
-                          .startsWith(
-                            selectedCategory.toLowerCase()
-                          )
-                      )
-                      .map((service, index) => (
-                        <Text
-                          key={index}
-                          style={styles.name}
-                        >
-                          {service}
-                        </Text>
-                      ))
-
-                  )}
+                    .map((service: string, index: number) => (
+                      <Text key={index} style={styles.name}>
+                        {service}
+                      </Text>
+                    ))}
 
                   <View
                     style={{

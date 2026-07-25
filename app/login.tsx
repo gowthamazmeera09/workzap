@@ -7,25 +7,15 @@ import {
   Alert
 } from "react-native";
 
-import {
-  useState
-} from "react";
+import { useState } from "react";
 
-import AsyncStorage from
-  "@react-native-async-storage/async-storage";
-
-import {
-  router
-} from "expo-router";
+import { router } from "expo-router";
 
 import API_URL from "@/constants/api";
 
 export default function LoginScreen() {
 
-  const [phone, setPhone] =
-    useState("");
-
-  const [password, setPassword] =
+  const [email, setEmail] =
     useState("");
 
   const [loading, setLoading] =
@@ -36,21 +26,41 @@ export default function LoginScreen() {
 
       try {
 
+        if (!email) {
+
+          Alert.alert(
+            "Please enter your email."
+          );
+
+          return;
+
+        }
+
         setLoading(true);
 
         const response =
           await fetch(
-            `${API_URL}/api/auth/login`,
+
+            `${API_URL}/api/auth/send-login-otp`,
+
             {
+
               method: "POST",
+
               headers: {
+
                 "Content-Type": "application/json"
+
               },
+
               body: JSON.stringify({
-                phone,
-                password
+
+                email
+
               })
+
             }
+
           );
 
         const data =
@@ -59,72 +69,63 @@ export default function LoginScreen() {
         if (!response.ok) {
 
           Alert.alert(
+
+            "Error",
+
             data.message
+
           );
 
           return;
 
         }
-        // CLEAR OLD DATA
-        await AsyncStorage.clear();
 
-        // SAVE TOKEN
-        await AsyncStorage.setItem(
+        Alert.alert(
 
-          "token",
+          "Success",
 
-          data.token
+          "OTP sent to your email."
 
         );
 
-        // SAVE USER
-        await AsyncStorage.setItem(
+        router.push({
 
-          "user",
+          pathname: "/verify-otp",
 
-          JSON.stringify(
-            data.user
-          )
+          params: {
 
-        );
-        // IF USER IS WORKER
-        if (data.user.isWorker) {
+            email,
 
-          const response =
-            await fetch(
-              `${API_URL}/api/workers/user/${data.user._id}`
-            );
+            purpose: "login"
 
-          const worker =
-            await response.json();
+          }
 
-          await AsyncStorage.setItem(
+        });
 
-            "workerProfile",
+      }
 
-            JSON.stringify(worker)
-
-          );
-
-        }
-
-        router.replace(
-          "/(tabs)"
-        );
-
-      } catch (err) {
+      catch (err) {
 
         console.log(err);
 
-      } finally {
+        Alert.alert(
+
+          "Error",
+
+          "Something went wrong."
+
+        );
+
+      }
+
+      finally {
 
         setLoading(false);
 
       }
 
     };
-
-  return (
+      return (
 
     <View style={styles.container}>
 
@@ -133,26 +134,16 @@ export default function LoginScreen() {
       </Text>
 
       <TextInput
-  placeholder="Phone"
-  placeholderTextColor="#888"
-  value={phone}
-  onChangeText={setPhone}
-  keyboardType="phone-pad"
-  style={styles.input}
-  cursorColor="#2962FF"
-  selectionColor="#2962FF"
-/>
-
-      <TextInput
-  placeholder="Password"
-  placeholderTextColor="#888"
-  value={password}
-  onChangeText={setPassword}
-  secureTextEntry
-  style={styles.input}
-  cursorColor="#2962FF"
-  selectionColor="#2962FF"
-/>
+        placeholder="Email"
+        placeholderTextColor="#888"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        style={styles.input}
+        cursorColor="#2962FF"
+        selectionColor="#2962FF"
+      />
 
       <TouchableOpacity
 
@@ -160,14 +151,18 @@ export default function LoginScreen() {
 
         onPress={login}
 
+        disabled={loading}
+
       >
 
         <Text style={styles.buttonText}>
 
           {
+
             loading
-              ? "Loading..."
-              : "Login"
+              ? "Sending OTP..."
+              : "Continue"
+
           }
 
         </Text>
@@ -214,14 +209,14 @@ const styles =
     },
 
     input: {
-  backgroundColor: "#F5F5F5",
-  borderRadius: 14,
-  paddingHorizontal: 15,
-  height: 55,
-  marginBottom: 15,
-  fontSize: 16,
-  color: "#000"
-},
+      backgroundColor: "#F5F5F5",
+      borderRadius: 14,
+      paddingHorizontal: 15,
+      height: 55,
+      marginBottom: 15,
+      fontSize: 16,
+      color: "#000"
+    },
 
     button: {
       backgroundColor: "#2962FF",
