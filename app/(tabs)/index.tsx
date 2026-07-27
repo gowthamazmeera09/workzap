@@ -1111,17 +1111,19 @@ export default function HomeScreen() {
                       : selectedCategory}
                   </Text>
 
-                  {selectedWorker.serviceTypes
-                    ?.filter((service: string) =>
-                      search === ""
-                        ? true
-                        : service.toLowerCase().startsWith(search.toLowerCase())
+                  {selectedCategory === "All" ? (
+                    selectedWorker.serviceTypes?.map(
+                      (service: string, index: number) => (
+                        <Text key={index} style={styles.name}>
+                          {service}
+                        </Text>
+                      )
                     )
-                    .map((service: string, index: number) => (
-                      <Text key={index} style={styles.name}>
-                        {service}
-                      </Text>
-                    ))}
+                  ) : (
+                    <Text style={styles.name}>
+                      {selectedCategory}
+                    </Text>
+                  )}
 
                   <View
                     style={{
