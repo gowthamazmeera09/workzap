@@ -105,17 +105,12 @@ export default function LoginScreen() {
       }
 
       catch (err) {
-
-        console.log(err);
+        console.log("LOGIN ERROR:", err);
 
         Alert.alert(
-
           "Error",
-
-          "Something went wrong."
-
+          err.message || JSON.stringify(err)
         );
-
       }
 
       finally {
@@ -125,7 +120,7 @@ export default function LoginScreen() {
       }
 
     };
-      return (
+  return (
 
     <View style={styles.container}>
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "workzap",
+    "name": "WorkZap",
     "slug": "workzap",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -43,7 +43,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow WorkZap to access your location."
+          "locationWhenInUsePermission": "Allow WorkZap to access your location to find nearby workers."
         }
       ],
       [
