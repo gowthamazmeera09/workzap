@@ -1,10 +1,10 @@
 import {
-  View,
+  Alert,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Alert
+  View
 } from "react-native";
 
 import { useState } from "react";
@@ -15,111 +15,98 @@ import API_URL from "@/constants/api";
 
 export default function LoginScreen() {
 
-  const [email, setEmail] =
-    useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const login = async () => {
+  try {
+    if (!email.trim()) {
+      Alert.alert("Please enter your email.");
+      return;
+    }
 
-  const login =
-    async () => {
+    setLoading(true);
 
-      try {
+    console.log("================================");
+    console.log("➡ LOGIN STARTED");
+    console.log("API URL:", `${API_URL}/api/auth/send-login-otp`);
+    console.log("EMAIL:", email.trim());
+    console.log("================================");
 
-        if (!email) {
-
-          Alert.alert(
-            "Please enter your email."
-          );
-
-          return;
-
-        }
-
-        setLoading(true);
-
-        const response =
-          await fetch(
-
-            `${API_URL}/api/auth/send-login-otp`,
-
-            {
-
-              method: "POST",
-
-              headers: {
-
-                "Content-Type": "application/json"
-
-              },
-
-              body: JSON.stringify({
-
-                email
-
-              })
-
-            }
-
-          );
-
-        const data =
-          await response.json();
-
-        if (!response.ok) {
-
-          Alert.alert(
-
-            "Error",
-
-            data.message
-
-          );
-
-          return;
-
-        }
-
-        Alert.alert(
-
-          "Success",
-
-          "OTP sent to your email."
-
-        );
-
-        router.push({
-
-          pathname: "/verify-otp",
-
-          params: {
-
-            email,
-
-            purpose: "login"
-
-          }
-
-        });
-
+    const response = await fetch(
+      `${API_URL}/api/auth/send-login-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          email: email.trim()
+        })
       }
+    );
 
-      catch (err) {
-        console.log("LOGIN ERROR:", err);
+    console.log("HTTP STATUS:", response.status);
 
-        Alert.alert(
-          "Error",
-          err.message || JSON.stringify(err)
-        );
+    const text = await response.text();
+
+    console.log("================================");
+    console.log("RAW SERVER RESPONSE:");
+    console.log(text);
+    console.log("================================");
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch (parseError) {
+      console.log("❌ JSON PARSE FAILED");
+      console.log(parseError);
+
+      Alert.alert(
+        "Backend Response",
+        text || "Empty response from server"
+      );
+
+      return;
+    }
+
+    console.log("PARSED DATA:", data);
+
+    if (!response.ok) {
+      Alert.alert(
+        "Error",
+        data.message || "Login request failed"
+      );
+      return;
+    }
+
+    Alert.alert(
+      "Success",
+      "OTP sent to your email."
+    );
+
+    router.push({
+      pathname: "/verify-otp",
+      params: {
+        email: email.trim(),
+        purpose: "login"
       }
+    });
 
-      finally {
+  } catch (err) {
+    console.log("❌ LOGIN FETCH ERROR:", err);
 
-        setLoading(false);
+    Alert.alert(
+      "Connection Error",
+      err.message || "Unable to connect to server."
+    );
 
-      }
-
-    };
+  } finally {
+    setLoading(false);
+  }
+};
   return (
 
     <View style={styles.container}>
@@ -135,47 +122,36 @@ export default function LoginScreen() {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        autoCorrect={false}
         style={styles.input}
         cursorColor="#2962FF"
         selectionColor="#2962FF"
       />
 
       <TouchableOpacity
-
         style={styles.button}
-
         onPress={login}
-
         disabled={loading}
-
       >
 
         <Text style={styles.buttonText}>
 
-          {
-
-            loading
-              ? "Sending OTP..."
-              : "Continue"
-
-          }
+          {loading
+            ? "Sending OTP..."
+            : "Continue"}
 
         </Text>
 
       </TouchableOpacity>
 
       <TouchableOpacity
-
         onPress={() =>
           router.push("/register")
         }
-
       >
 
         <Text style={styles.registerText}>
-
           Create Account
-
         </Text>
 
       </TouchableOpacity>
@@ -183,57 +159,55 @@ export default function LoginScreen() {
     </View>
 
   );
-
 }
 
-const styles =
-  StyleSheet.create({
+const styles = StyleSheet.create({
 
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      padding: 25,
-      backgroundColor: "#fff"
-    },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 25,
+    backgroundColor: "#fff"
+  },
 
-    title: {
-      fontSize: 34,
-      fontWeight: "bold",
-      marginBottom: 40,
-      textAlign: "center"
-    },
+  title: {
+    fontSize: 34,
+    fontWeight: "bold",
+    marginBottom: 40,
+    textAlign: "center"
+  },
 
-    input: {
-      backgroundColor: "#F5F5F5",
-      borderRadius: 14,
-      paddingHorizontal: 15,
-      height: 55,
-      marginBottom: 15,
-      fontSize: 16,
-      color: "#000"
-    },
+  input: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 14,
+    paddingHorizontal: 15,
+    height: 55,
+    marginBottom: 15,
+    fontSize: 16,
+    color: "#000"
+  },
 
-    button: {
-      backgroundColor: "#2962FF",
-      height: 55,
-      borderRadius: 14,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 10
-    },
+  button: {
+    backgroundColor: "#2962FF",
+    height: 55,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10
+  },
 
-    buttonText: {
-      color: "#fff",
-      fontSize: 18,
-      fontWeight: "bold"
-    },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold"
+  },
 
-    registerText: {
-      marginTop: 25,
-      textAlign: "center",
-      color: "#2962FF",
-      fontWeight: "bold",
-      fontSize: 16
-    }
+  registerText: {
+    marginTop: 25,
+    textAlign: "center",
+    color: "#2962FF",
+    fontWeight: "bold",
+    fontSize: 16
+  }
 
-  });
+});
